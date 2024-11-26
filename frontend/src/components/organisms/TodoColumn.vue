@@ -17,7 +17,7 @@
           :id="title"
           class="py-0"
         >
-          <KanbanTaskCard
+          <todo-card
             v-for="task in localTaskList"
             :key="task.id"
             :id="task.id"
@@ -35,12 +35,12 @@
 
 <script>
 import draggable from "vuedraggable";
-import KanbanTaskCard from "./KanbanTaskCard.vue";
+import TodoCard from "../molecules/TodoCard.vue";
 export default {
-  name: "KanbanColumnCard",
+  name: "TodoColumn",
   components: {
     draggable,
-    KanbanTaskCard,
+    TodoCard,
   },
   props: {
     title: {

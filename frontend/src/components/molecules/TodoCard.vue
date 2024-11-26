@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: "KanbanTaskCard",
+  name: "TodoCard",
   props: {
     task: {
       type: String,

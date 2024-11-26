@@ -7,7 +7,7 @@
         cols="12"
         md="auto"
       >
-        <KanbanColumnCard
+        <todo-column
           :title="status"
           :taskList="getTaskListByStatus(status)"
           @cardMoved="handleCardMoved"
@@ -61,13 +61,13 @@
 </template>
 
 <script>
-import KanbanColumnCard from "./KanbanColumnCard.vue";
+import TodoColumn from "../organisms/TodoColumn.vue";
 import { mapGetters } from "vuex";
 
 export default {
-  name: "KanbanBoardCard",
+  name: "KanbanBoard",
   components: {
-    KanbanColumnCard,
+    TodoColumn,
   },
   props: {},
   data() {
@@ -119,5 +119,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

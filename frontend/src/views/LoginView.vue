@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import ScrollPageBtn from "../components/ScrollPageBtn.vue";
+import ScrollPageBtn from "../components/molecules/ScrollPageBtn.vue";
 export default {
   components: {
     ScrollPageBtn,

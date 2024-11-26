@@ -1,6 +1,6 @@
 <template>
   <div>
-    <KanbanBoardCard
+    <kanban-board
       @cardMoved="handleChangeTaskStatus"
       @addCard="handleAddNewTask"
       @deleteCard="handleDeleteTask"
@@ -11,13 +11,13 @@
 
 <script>
 import { mapActions } from "vuex";
-import KanbanBoardCard from "../components/Kanban/KanbanBoardCard.vue";
+import KanbanBoard from "../components/templates/KanbanBoard.vue";
 import projectService from "@/services/projectService";
 
 export default {
   name: "ProjectsView",
   components: {
-    KanbanBoardCard,
+    KanbanBoard,
   },
   data() {
     return {
@@ -92,5 +92,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
