@@ -5,9 +5,44 @@
       <v-divider></v-divider>
       <v-card-text>
         <div class="pt-0 pb-2">
-          <v-btn block @click="$emit('addCard', title)">
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
+          <!--send title(status) to parent -->
+          <div v-if="!isCreateTask">
+            <v-btn block @click="toggleIsCreate">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </div>
+          <div v-else>
+            <v-card color="surface" v-click-outside="toggleIsCreate" class="my-2">
+              <v-form v-model="isFormValid" @submit.prevent="submitNewTask">
+                <v-row justify="space-between" class="pa-0">
+                  <v-col align-self="center" cols="12" class="py-2 px-5"
+                    ><v-text-field
+                      solo
+                      flat
+                      autofocus
+                      hide-details
+                      background-color="surface"
+                      label="What need to be done?"
+                      required
+                      v-model="newTaskName"
+                      :rules="nameRules"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col align-self="center" cols="12" class="py-2 px-5">
+                    <div class="d-flex justify-end">
+                      <v-btn
+                        text
+                        type="submit"
+                        :disabled="!isFormValid"
+                        color="primary"
+                        >Create</v-btn
+                      >
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-card>
+          </div>
         </div>
         <draggable
           v-model="localTaskList"
@@ -52,10 +87,26 @@ export default {
       default: () => [],
     },
   },
+  computed: {
+    localTaskList: {
+      get() {
+        return [...this.taskList];
+      },
+      set(value) {
+        // this.$emit("update:taskList", value);
+        console.log("set", value);
+      },
+    },
+  },
   data() {
     return {
-      // for defend mutating-props
-      localTaskList: [...this.taskList],
+      isCreateTask: false,
+      isFormValid: false,
+      newTaskName: "",
+      nameRules: [
+        (v) => !!v || "Task name is required",
+        (v) => v.length <= 10 || "Name must be less than 10 characters",
+      ],
     };
   },
   methods: {
@@ -73,14 +124,14 @@ export default {
       };
       this.$emit("cardMoved", payload);
     },
-  },
-  watch: {
-    taskList: {
-      // set local task by computed prop
-      immediate: true,
-      handler(newTaskList) {
-        this.localTaskList = [...newTaskList];
-      },
+    toggleIsCreate() {
+      this.isCreateTask = !this.isCreateTask;
+    },
+    submitNewTask() {
+      if (!this.isFormValid) return;
+      this.isCreateTask = false;
+      this.$emit("addCard", { title: this.title, taskName: this.newTaskName });
+      this.newTaskName = "";
     },
   },
 };

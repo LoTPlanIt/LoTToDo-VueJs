@@ -88,10 +88,10 @@ export default {
         this.$emit("cardMoved", { ...card });
       }
     },
-    handleAddCard(status) {
+    handleAddCard(newTask) {
       this.isEdit = false;
-      this.taskData = { name: "", status };
-      this.dialog = true;
+      this.taskData = { name: newTask.taskName, status: newTask.title };
+      this.$emit("addCard", { ...this.taskData });
     },
     submitForm() {
       this.dialog = false;
