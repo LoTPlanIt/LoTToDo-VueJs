@@ -1,9 +1,6 @@
 <template>
-  <v-card color="surface" class="my-2" v-click-outside="$emit('cancel')">
-    <v-form
-      v-model="isFormValid"
-      @submit.prevent="$emit('submitTask', taskName)"
-    >
+  <v-card color="surface" class="my-2">
+    <v-form v-model="isFormValid" @submit.prevent="onSubmitForm">
       <v-row justify="space-between" class="pa-0">
         <v-col align-self="center" cols="12" class="py-2 px-5"
           ><v-text-field
@@ -14,7 +11,7 @@
             background-color="surface"
             label="What need to be done?"
             required
-            v-model="taskName"
+            v-model="form.taskName"
             :rules="rules"
           ></v-text-field>
         </v-col>
@@ -32,7 +29,7 @@
 
 <script>
 export default {
-  name: "TodoCreateCard",
+  name: "TodoCardCreate",
   props: {
     rules: {
       type: Array,
@@ -41,9 +38,18 @@ export default {
   },
   data() {
     return {
-      taskName: "",
+      form: {
+        taskName: "",
+      },
       isFormValid: false,
     };
+  },
+  methods: {
+    onSubmitForm() {
+      this.$emit("submitForm", this.form);
+      this.form.taskName = "";
+      this.isFormValid = false;
+    },
   },
 };
 </script>
