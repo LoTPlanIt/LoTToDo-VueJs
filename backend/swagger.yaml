@@ -1,0 +1,16 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Lotto888 API
+  description: API documentation for Lotto888
+host: localhost:3000
+basePath: /
+schemes:
+  - http
+paths:
+  /login:
+    post:
+      summary: User login
+      responses:
+        "200":
+          description: Login successful

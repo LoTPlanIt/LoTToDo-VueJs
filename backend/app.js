@@ -9,6 +9,10 @@ const Project = require("./route/projects");
 //----------- Require Middleware -----------//
 const verifyToken = require("./middleware/verifyToken");
 
+//----------- Require Package -----------//
+const file = fs.readFileSync("./swagger.yaml", "utf8");
+const swaggerDocument = YAML.parse(file);
+
 //---- Config -----//
 const app = express();
 app.use(bodyParser.json({ limit: "512mb" }));
@@ -22,6 +26,7 @@ app.get("/", (req, res) => {
 });
 
 //------------- Route -------------//
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/login", Login);
 app.use("/register", Register);
 app.use("/projects", verifyToken, Project);
