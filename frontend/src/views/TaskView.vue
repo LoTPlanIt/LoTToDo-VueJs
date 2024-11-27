@@ -1,17 +1,17 @@
 <template>
   <div>
-    <KanbanBoardCard :onCardMoved="handleChangeTaskStatus" />
+    <kanban-board :onCardMoved="handleChangeTaskStatus" />
   </div>
 </template>
-  
-  <script>
+
+<script>
 import { mapActions } from "vuex";
-import KanbanBoardCard from "../components/Kanban/KanbanBoardCard.vue";
+import KanbanBoard from "../components/templates/KanbanBoard.vue";
 import projectService from "../services/projectService";
 export default {
   name: "TaskView",
   components: {
-    KanbanBoardCard,
+    KanbanBoard,
   },
   data() {
     return {
@@ -48,6 +48,5 @@ export default {
   },
 };
 </script>
-  
-  <style>
-</style>
+
+<style></style>

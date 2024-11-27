@@ -7,19 +7,19 @@
         cols="12"
         md="auto"
       >
-        <KanbanColumnCard
+        <todo-column
           :title="status"
           :taskList="getTaskListByStatus(status)"
-          @cardMoved="handleCardMoved"
-          @addCard="handleAddCard"
-          @editCard="handleEditCard"
-          @deleteCard="handleDeleteCard"
+          @cardMoved="onCardMoved"
+          @addCard="onAddCard"
+          @editCard="onEditCard"
+          @deleteCard="onDeleteCard"
         />
       </v-col>
     </v-row>
     <v-dialog v-model="dialog" persistent max-width="600px">
       <v-card>
-        <v-form ref="taskForm" v-model="valid" @submit.prevent="submitForm">
+        <v-form ref="taskForm" v-model="valid" @submit.prevent="onSubmitForm">
           <v-card-title
             ><span class="text-h5">
               {{ isEdit ? "Edit Task" : "Add Task" }}
@@ -61,13 +61,13 @@
 </template>
 
 <script>
-import KanbanColumnCard from "./KanbanColumnCard.vue";
+import TodoColumn from "../organisms/TodoColumn.vue";
 import { mapGetters } from "vuex";
 
 export default {
-  name: "KanbanBoardCard",
+  name: "KanbanBoard",
   components: {
-    KanbanColumnCard,
+    TodoColumn,
   },
   props: {},
   data() {
@@ -83,17 +83,17 @@ export default {
     };
   },
   methods: {
-    handleCardMoved(card) {
+    onCardMoved(card) {
       if (card.oldStatus !== card.newStatus) {
         this.$emit("cardMoved", { ...card });
       }
     },
-    handleAddCard(status) {
+    onAddCard(newTask) {
       this.isEdit = false;
-      this.taskData = { name: "", status };
-      this.dialog = true;
+      this.taskData = { name: newTask.taskName, status: newTask.title };
+      this.$emit("addCard", { ...this.taskData });
     },
-    submitForm() {
+    onSubmitForm() {
       this.dialog = false;
       if (this.$refs.taskForm.validate()) {
         if (this.isEdit) {
@@ -104,12 +104,12 @@ export default {
       }
       this.$refs.taskForm.reset();
     },
-    handleEditCard(taskId) {
+    onEditCard(taskId) {
       this.isEdit = true;
       this.taskData = { ...this.getTaskById(taskId) };
       this.dialog = true;
     },
-    handleDeleteCard(taskId) {
+    onDeleteCard(taskId) {
       this.$emit("deleteCard", taskId);
     },
   },
@@ -119,5 +119,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
