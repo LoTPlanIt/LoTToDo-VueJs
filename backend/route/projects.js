@@ -8,16 +8,16 @@ const sprintController = require("../controller/sprintController");
 // project
 router.get("/", projectController.getAllProjects);
 router.get("/:id", projectController.getProjectById);
-router.post("/", projectController.createProject);
+router.post("/new", projectController.createProject);
 
 // task
-router.get("/:id/allTasks", taskController.getAllTasks);
-router.get("/:id/tasks", taskController.getTaskByProjectId);
-router.post("/:id/tasks", taskController.createTask);
+router.get("/:id/task_list", taskController.getAllTasks);
+router.get("/:id/task_project_list", taskController.getTaskByProjectId);
+router.post("/:id/task_new", taskController.createTask);
 
 // sprint
-router.get("/:id/allSprints", sprintController.getAllSprints);
-router.get("/:id/sprints", sprintController.getSprintByProjectId);
-router.post("/:id/sprints", sprintController.createSprint);
+router.get("/:id/sprint_list", sprintController.getAllSprints);
+router.get("/:id/sprint_project_list", sprintController.getSprintByProjectId);
+router.post("/:id/sprint_new", sprintController.createSprint);
 
 module.exports = router;
