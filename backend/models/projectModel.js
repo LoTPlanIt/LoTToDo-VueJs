@@ -46,8 +46,8 @@ const projectschema = new mongoose.Schema(
         color: String,
       },
     ],
-    tasks: [{ type: Schema.Types.ObjectId, ref: "taskData" }],
-    sprints: [{ type: Schema.Types.ObjectId, ref: "sprintData" }],
+    taskList: [{ type: Schema.Types.ObjectId, ref: "taskData" }],
+    sprintList: [{ type: Schema.Types.ObjectId, ref: "sprintData" }],
     owner: {
       type: Schema.Types.ObjectId,
       ref: "userData",
@@ -57,6 +57,13 @@ const projectschema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+/* Middleware */
+projectschema.pre("remove", async function (next) {
+  await mongoose.model("sprintData").deleteMany({ projectId: this._id });
+  await mongoose.model("taskData").deleteMany({ projectId: this._id });
+  next();
+});
 
 const projectModel = mongoose.model(
   "projectData",
