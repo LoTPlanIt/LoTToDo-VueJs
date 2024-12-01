@@ -1,35 +1,40 @@
 const mongoose = require("mongoose");
 
-const taskschema = new Schema({
-  projectId: {
-    type: Schema.Types.ObjectId,
-    ref: "projectData",
-  },
-  sprintsId: [
-    {
+const taskschema = new Schema(
+  {
+    projectId: {
       type: Schema.Types.ObjectId,
-      ref: "sprintData",
+      ref: "projectData",
     },
-  ],
-  title: String,
-  description: String,
-  assignedTo: {
-    type: Schema.Types.ObjectId,
-    ref: "userData",
+    sprintsId: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "sprintData",
+      },
+    ],
+    title: String,
+    description: String,
+    assignedTo: {
+      type: Schema.Types.ObjectId,
+      ref: "userData",
+    },
+    status: String,
+    priority: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "low",
+    },
+    startDate: Date,
+    endDate: Date,
+    timeEstimation: Number,
+    timeSpent: Number,
+    githubUrl: String,
+    labels: [String],
   },
-  status: String,
-  priority: {
-    type: String,
-    enum: ["low", "medium", "high"],
-    default: "low",
-  },
-  startDate: Date,
-  endDate: Date,
-  timeEstimation: Number,
-  timeSpent: Number,
-  githubUrl: String,
-  labels: [String],
-});
+  {
+    timestamps: true,
+  }
+);
 
 const taskModel = mongoose.model("taskData", taskschema, "taskData");
 

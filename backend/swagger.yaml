@@ -1,16 +1,862 @@
-swagger: "2.0"
+openapi: 3.0.3
 info:
-  version: "1.0.0"
   title: Lotto888 API
   description: API documentation for Lotto888
-host: localhost:3000
-basePath: /
-schemes:
-  - http
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8808
+    description: Localhost test
+tags:
+  - name: "Overall"
+    description: "Overall in Lotto888"
+  - name: "Project board"
+    description: "Everything about Project management board"
+
 paths:
+  ############################ Overall ############################
+  #Post login
   /login:
     post:
-      summary: User login
+      tags:
+        - "Overall"
+      summary: "User login"
+      description: "Login endpoint for users"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "testuser"
+                password:
+                  type: string
+                  example: "password123"
+              required:
+                - username
+                - password
       responses:
         "200":
-          description: Login successful
+          description: "Login successful"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Login successful"
+                  token:
+                    type: string
+                    example: "xxxxxxxxxxxxxxxxxxxxx"
+        "401":
+          description: "Unauthorized"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid username or password"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Login failed"
+
+  #Post register
+  /register:
+    post:
+      tags:
+        - "Overall"
+      summary: "User register"
+      description: "Register endpoint for users"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "testuser"
+                password:
+                  type: string
+                  example: "password123"
+                email:
+                  type: string
+                  example: "GcE3b@example.com"
+              required:
+                - username
+                - password
+                - email
+      responses:
+        "200":
+          description: "Login successful"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Login successful"
+                  token:
+                    type: string
+                    example: "xxxxxxxxxxxxxxxxxxxxx"
+        "401":
+          description: "Unauthorized"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid username or password"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Login failed"
+
+  ############################ Project board ############################
+
+  #Get project list
+  /project_board/main_project_list:
+    get:
+      description: "Get project list that user has joined"
+      parameters:
+        [
+          {
+            name: "Authorization",
+            in: "header",
+            description: "Bearer token",
+            required: true,
+            schema: { type: "string" },
+          },
+        ]
+      tags:
+        - "Project board"
+      summary: "Returns a list of projects that the user has joined"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          example: "project title"
+                        icon:
+                          type: string
+                          example: "https://example.com/icon.png"
+                        owner:
+                          type: string
+                          example: "username"
+                        githubUrl:
+                          type: string
+                          example: "https://github.com/username/project"
+                        status:
+                          type: string
+                          example: "planing"
+                        projectId:
+                          type: string
+                          example: "1"
+                  count:
+                    type: integer
+                    example: 1
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cannot get project list"
+
+  #Post new project
+  /project_board/main_project_new:
+    post:
+      description: "Create a new project"
+      parameters:
+        [
+          {
+            name: "Authorization",
+            in: "header",
+            description: "Bearer token",
+            required: true,
+            schema: { type: "string" },
+          },
+        ]
+      tags:
+        - "Project board"
+      summary: "Create a new project"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "new project title"
+                icon:
+                  type: string
+                  example: "https://example.com/icon.png"
+                description:
+                  type: string
+                  example: "This is a project"
+                githubUrl:
+                  type: string
+                  example: "https://github.com/username/project"
+                startDate:
+                  type: string
+                  example: "2023-01-01"
+                endDate:
+                  type: string
+                  example: "2023-01-01"
+                status:
+                  type: string
+                  example: "planing"
+                taskStatusList:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        example: "status name"
+                      color:
+                        type: string
+                        example: "#ff0000"
+                taskLabelList:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                        example: "task name"
+                      color:
+                        type: string
+                        example: "#ff0000"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        projectId:
+                          type: string
+                          example: "2"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cannot create project"
+
+  #RUD selected project
+  /project_board/main_project?selectedProject={projectId}:
+    delete:
+      description: "Delete a project"
+      parameters:
+        [
+          {
+            name: "Authorization",
+            in: "header",
+            description: "Bearer token",
+            required: true,
+            schema: { type: "string" },
+          },
+          {
+            name: "projectId",
+            in: "query",
+            description: "Project ID",
+            required: true,
+            schema: { type: "string" },
+          },
+        ]
+      tags:
+        - "Project board"
+      summary: "Delete a project"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Project deleted successfully"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cannot delete project"
+
+  #Get project kanban board
+  /project_board/{projectId}/kanban_detail:
+    get:
+      description: "Get project kanban board"
+      parameters:
+        [
+          {
+            name: "Authorization",
+            in: "header",
+            description: "Bearer token",
+            required: true,
+            schema: { type: "string" },
+          },
+          {
+            name: "projectId",
+            in: "path",
+            description: "Project ID",
+            required: true,
+            schema: { type: "string" },
+          },
+        ]
+      tags:
+        - "Project board"
+      summary: "Get project kanban board"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          example: "task title"
+                        description:
+                          type: string
+                          example: "This is a task"
+                        taskStatusList:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              status:
+                                type: string
+                                example: "planning"
+                              color:
+                                type: string
+                                example: "#ff0000"
+                        taskLabelList:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              label:
+                                type: string
+                                example: "frontend"
+                              color:
+                                type: string
+                                example: "#ff0000"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cannot get project kanban board"
+
+  #Get project kaban board task list
+  /project_board/{projectId}/kanban_task_list?filter={filter}:
+    get:
+      description: "Get project kaban board task list"
+      parameters:
+        [
+          {
+            name: "Authorization",
+            in: "header",
+            description: "Bearer token",
+            required: true,
+            schema: { type: "string" },
+          },
+          {
+            name: "projectId",
+            in: "path",
+            description: "Project ID",
+            required: true,
+            schema: { type: "string" },
+          },
+          {
+            name: "filter",
+            in: "query",
+            description: "filter",
+            required: false,
+            schema:
+              {
+                type: "object",
+                properties:
+                  {
+                    startDate: { type: "string" },
+                    endDate: { type: "string" },
+                    status: { type: "string" },
+                    label: { type: "string" },
+                  },
+              },
+          },
+        ]
+      tags:
+        - "Project board"
+      summary: "Get project kaban board task list by filter"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          example: "task title"
+                        description:
+                          type: string
+                          example: "This is a task"
+                        assignedTo:
+                          type: string
+                          example: "username"
+                        status:
+                          type: string
+                          example: "planing"
+                        labels:
+                          type: array
+                          items:
+                            type: string
+                            example: "frontend"
+                        priority:
+                          type: string
+                          example: "low"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cannot get project kaban board task list"
+
+  #Post project kanban board new task
+  /project_board/{projectId}/kanban_task_new:
+    post:
+      description: "Create a new task"
+      parameters:
+        [
+          {
+            name: "Authorization",
+            in: "header",
+            description: "Bearer token",
+            required: true,
+            schema: { type: "string" },
+          },
+          {
+            name: "projectId",
+            in: "path",
+            description: "Project ID",
+            required: true,
+            schema: { type: "string" },
+          },
+        ]
+      tags:
+        - "Project board"
+      summary: "Create a new task"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "new task title"
+                status:
+                  type: string
+                  example: "planing"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      taskId:
+                        type: string
+                        example: "1"
+                      title":
+                        type: string
+                        example: "new task title"
+                      status":
+                        type: string
+                        example: "planing"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cannot create task"
+
+  #RUD project kanban board selected task
+  /project_board/{projectId}/kanban_task?selectedTask={taskId}:
+    #Delete project kanban board task
+    delete:
+      description: "Delete a task"
+      parameters:
+        [
+          {
+            name: "Authorization",
+            in: "header",
+            description: "Bearer token",
+            required: true,
+            schema: { type: "string" },
+          },
+          {
+            name: "projectId",
+            in: "path",
+            description: "Project ID",
+            required: true,
+            schema: { type: "string" },
+          },
+          {
+            name: "taskId",
+            in: "query",
+            description: "Task ID",
+            required: true,
+            schema: { type: "string" },
+          },
+        ]
+      tags:
+        - "Project board"
+      summary: "Delete a task"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Task deleted successfully"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cannot delete task"
+    #Get project kanban board task detail
+    get:
+      description: "Get project kanban board task detail"
+      parameters:
+        [
+          {
+            name: "Authorization",
+            in: "header",
+            description: "Bearer token",
+            required: true,
+            schema: { type: "string" },
+          },
+          {
+            name: "projectId",
+            in: "path",
+            description: "Project ID",
+            required: true,
+            schema: { type: "string" },
+          },
+          {
+            name: "taskId",
+            in: "query",
+            description: "Task ID",
+            required: true,
+            schema: { type: "string" },
+          },
+        ]
+      tags:
+        - "Project board"
+      summary: "Get project kanban board task detail"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                        example: "task title"
+                      description:
+                        type: string
+                        example: "This is a task"
+                      assignedTo:
+                        type: string
+                        example: "username"
+                      status:
+                        type: string
+                        example: "planing"
+                      labels:
+                        type: string
+                        example: "frontend"
+                      priority:
+                        type: string
+                        example: "low"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cannot get project kanban board task detail"
+    #Update project kanban board task
+    put:
+      description: "Update a task"
+      parameters:
+        [
+          {
+            name: "Authorization",
+            in: "header",
+            description: "Bearer token",
+            required: true,
+            schema: { type: "string" },
+          },
+          {
+            name: "projectId",
+            in: "path",
+            description: "Project ID",
+            required: true,
+            schema: { type: "string" },
+          },
+          {
+            name: "taskId",
+            in: "query",
+            description: "Task ID",
+            required: true,
+            schema: { type: "string" },
+          },
+        ]
+      tags:
+        - "Project board"
+      summary: "Update a task"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "new task title"
+                status:
+                  type: string
+                  example: "planing"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      taskId:
+                        type: string
+                        example: "1"
+                      title":
+                        type: string
+                        example: "new task title"
+                      status":
+                        type: string
+                        example: "planing"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cannot update task"
+
+############################ Coponent ############################
+components:
+  securitySchemes:
+    token:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
