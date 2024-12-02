@@ -2,12 +2,7 @@
 require("./config/config");
 
 //----------- Require Router -----------//
-const Login = require("./route/login");
-const Register = require("./route/register");
-const Project = require("./route/projects");
-
-//----------- Require Middleware -----------//
-const verifyToken = require("./middleware/verifyToken");
+const index = require("./route/index");
 
 //----------- Require Package -----------//
 const file = fs.readFileSync("./swagger.yaml", "utf8");
@@ -27,9 +22,7 @@ app.get("/", (req, res) => {
 
 //------------- Route -------------//
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use("/login", Login);
-app.use("/register", Register);
-app.use("/projects", verifyToken, Project);
+app.use("/api-lotto", index);
 
 //------- PORT ------//
 

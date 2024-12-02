@@ -15,7 +15,7 @@ tags:
 paths:
   ############################ Overall ############################
   #Post login
-  /login:
+  /api-lotto/login:
     post:
       tags:
         - "Overall"
@@ -73,7 +73,7 @@ paths:
                     example: "Login failed"
 
   #Post register
-  /register:
+  /api-lotto/register:
     post:
       tags:
         - "Overall"
@@ -137,7 +137,7 @@ paths:
   ############################ Project board ############################
 
   #Get project list
-  /project_board/main_project_list:
+  /api-lotto/project_board/main_project_list:
     get:
       description: "Get project list that user has joined"
       parameters:
@@ -209,7 +209,7 @@ paths:
                     example: "Cannot get project list"
 
   #Post new project
-  /project_board/main_project_new:
+  /api-lotto/project_board/main_project_new:
     post:
       description: "Create a new project"
       parameters:
@@ -313,7 +313,7 @@ paths:
                     example: "Cannot create project"
 
   #RUD selected project
-  /project_board/main_project?selectedProject={projectId}:
+  /api-lotto/project_board/main_project?selectedProject={projectId}:
     delete:
       description: "Delete a project"
       parameters:
@@ -369,7 +369,7 @@ paths:
                     example: "Cannot delete project"
 
   #Get project kanban board
-  /project_board/{projectId}/kanban_detail:
+  /api-lotto/project_board/{projectId}/kanban_detail:
     get:
       description: "Get project kanban board"
       parameters:
@@ -455,7 +455,7 @@ paths:
                     example: "Cannot get project kanban board"
 
   #Get project kaban board task list
-  /project_board/{projectId}/kanban_task_list?filter={filter}:
+  /api-lotto/project_board/{projectId}/kanban_task_list?filter={filter}:
     get:
       description: "Get project kaban board task list"
       parameters:
@@ -550,7 +550,7 @@ paths:
                     example: "Cannot get project kaban board task list"
 
   #Post project kanban board new task
-  /project_board/{projectId}/kanban_task_new:
+  /api-lotto/project_board/{projectId}/kanban_task_new:
     post:
       description: "Create a new task"
       parameters:
@@ -628,7 +628,7 @@ paths:
                     example: "Cannot create task"
 
   #RUD project kanban board selected task
-  /project_board/{projectId}/kanban_task?selectedTask={taskId}:
+  /api-lotto/project_board/{projectId}/kanban_task?selectedTask={taskId}:
     #Delete project kanban board task
     delete:
       description: "Delete a task"
