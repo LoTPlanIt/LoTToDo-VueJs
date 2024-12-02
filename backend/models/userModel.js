@@ -13,7 +13,7 @@ const userschema = new Schema(
       sex: { type: String },
       image: { type: String },
     },
-    assignedProjects: [{ type: Schema.Types.ObjectId, ref: "projectData" }],
+    joinedProjectList: [{ type: Schema.Types.ObjectId, ref: "projectData" }],
     assignedTasks: [{ type: Schema.Types.ObjectId, ref: "taskData" }],
   },
   {

@@ -5,6 +5,8 @@ const projectController = require("../controller/projectController");
 const taskController = require("../controller/taskController");
 const sprintController = require("../controller/sprintController");
 
+const projectBoardCotroller = require("../controller/projectBoardController");
+
 // // project
 // router.get("/", projectController.getAllProjects);
 // router.get("/:id", projectController.getProjectById);
@@ -61,6 +63,7 @@ const sprintController = require("../controller/sprintController");
  */
 
 /* Project */
+router.get("/main_project_list", projectBoardCotroller.getProjectListByUserId);
 
 /* Kanban Board */
 
