@@ -64,6 +64,7 @@ const projectBoardCotroller = require("../controller/projectBoardController");
 
 /* Project */
 router.get("/main_project_list", projectBoardCotroller.getProjectListByUserId);
+router.post("/main_project_new", projectBoardCotroller.createNewProject);
 
 /* Kanban Board */
 
