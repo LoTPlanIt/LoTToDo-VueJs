@@ -14,7 +14,7 @@ const userschema = new Schema(
       image: { type: String },
     },
     joinedProjectList: [{ type: Schema.Types.ObjectId, ref: "projectData" }],
-    assignedTasks: [{ type: Schema.Types.ObjectId, ref: "taskData" }],
+    assignedTaskList: [{ type: Schema.Types.ObjectId, ref: "taskData" }],
   },
   {
     timestamps: true,

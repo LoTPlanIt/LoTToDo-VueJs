@@ -3,7 +3,7 @@ const projectService = require("../service/projectService");
 const getProjectListByUserId = async (req, res) => {
   try {
     const userId = req.userData._id;
-    const projectList = await projectService.getProjectListByUserId(userId);
+    const projectList = await projectService.getProjectList.getByUserId(userId);
     const projectCount = projectList.length;
 
     return res.status(200).json({
